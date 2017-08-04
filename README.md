@@ -7,3 +7,9 @@
 + 增加文件分享，点击文件调用系统打开功能。
 + 增加联系人信息分享。
 + 长按消息弹出操作菜单
+
+## 截图
+![image](https://github.com/stridercheng/chatui/raw/master/images/preview.png)
+
+## 问题
+代码结构待优化
