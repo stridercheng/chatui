@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/chat_function_album"
+            style="@style/text_function_item"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/icon_album"
+            android:gravity="center"
+            android:text="相册" />
+
+        <TextView
+            android:id="@+id/chat_function_capture"
+            style="@style/text_function_item"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/icon_capture"
+            android:gravity="center"
+            android:text="拍照" />
+
+        <TextView
+            android:id="@+id/chat_function_contact"
+            style="@style/text_function_item"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/icon_im_contact"
+            android:gravity="center"
+            android:text="联系人" />
+
+
+        <TextView
+            android:id="@+id/chat_function_location"
+            style="@style/text_function_item"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/icon_im_location"
+            android:gravity="center"
+            android:text="位置" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/chat_function_file"
+            style="@style/text_function_item"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/icon_im_file"
+            android:gravity="center"
+            android:text="文件" />
+
+        <TextView
+            android:id="@+id/chat_function_cloud"
+            style="@style/text_function_item"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/icon_cloud"
+            android:gravity="center"
+            android:text="我的资料" />
+
+        <TextView
+            android:id="@+id/chat_blank_one"
+            style="@style/text_function_item"
+            android:drawablePadding="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/chat_blank_two"
+            style="@style/text_function_item"
+            android:drawablePadding="5dp"
+            android:gravity="center" />
+    </LinearLayout>
+</LinearLayout>
