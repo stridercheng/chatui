@@ -11,8 +11,6 @@ import com.rance.chatui.enity.IMContact;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by chengz
@@ -60,13 +58,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_name)
         TextView tvName;
-        @Bind(R.id.tv_phone)
         TextView tvPhone;
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            tvName = (TextView) itemView.findViewById(R.id.tv_name);
+            tvPhone = (TextView) itemView.findViewById(R.id.tv_phone);
         }
     }
 

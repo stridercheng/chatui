@@ -30,11 +30,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class ContactActivity extends AppCompatActivity implements ContactAdapter.OnContactClickListener {
-    @Bind(R.id.rv_contact)
     RecyclerView rvContact;
 
     private List<IMContact> imContactList;
@@ -44,7 +41,7 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
-        ButterKnife.bind(this);
+        rvContact = (RecyclerView) findViewById(R.id.rv_contact);
         setup();
         checkPermission();
     }

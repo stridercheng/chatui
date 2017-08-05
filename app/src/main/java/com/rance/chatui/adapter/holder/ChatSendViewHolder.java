@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,61 +26,34 @@ import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.BubbleLinearLayout;
 import com.rance.chatui.widget.GifTextView;
 
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnLongClick;
-
 /**
  * 作者：Rance on 2016/11/29 10:47
  * 邮箱：rance935@163.com
  */
 public class ChatSendViewHolder extends BaseViewHolder<MessageInfo> {
     private static final String TAG = "ChatSendViewHolder";
-    @Bind(R.id.chat_item_date)
     TextView chatItemDate;
-    @Bind(R.id.chat_item_header)
     ImageView chatItemHeader;
-    @Bind(R.id.chat_item_content_text)
     GifTextView chatItemContentText;
-    @Bind(R.id.chat_item_content_image)
     BubbleImageView chatItemContentImage;
-    @Bind(R.id.chat_item_fail)
     ImageView chatItemFail;
-    @Bind(R.id.chat_item_progress)
     ProgressBar chatItemProgress;
-    @Bind(R.id.chat_item_voice)
     ImageView chatItemVoice;
-    @Bind(R.id.chat_item_layout_content)
     BubbleLinearLayout chatItemLayoutContent;
-    @Bind(R.id.chat_item_voice_time)
     TextView chatItemVoiceTime;
-    @Bind(R.id.chat_item_layout_file)
     BubbleLinearLayout chatItemLayoutFile;
-    @Bind(R.id.iv_file_type)
     ImageView ivFileType;
-    @Bind(R.id.tv_file_name)
     TextView tvFileName;
-    @Bind(R.id.tv_file_size)
     TextView tvFileSize;
 
-    @Bind(R.id.chat_item_layout_contact)
     BubbleLinearLayout chatItemLayoutContact;
-    @Bind(R.id.tv_contact_surname)
     TextView tvContactSurname;
-    @Bind(R.id.tv_contact_name)
     TextView tvContactName;
-    @Bind(R.id.tv_contact_phone)
     TextView tvContactPhone;
 
-    @Bind(R.id.chat_item_layout_link)
     BubbleLinearLayout chatItemLayoutLink;
-    @Bind(R.id.tv_link_subject)
     TextView tvLinkSubject;
-    @Bind(R.id.tv_link_text)
     TextView tvLinkText;
-    @Bind(R.id.iv_link_picture)
     ImageView ivLinkPicture;
     private ChatAdapter.onItemClickListener onItemClickListener;
     private Handler handler;
@@ -90,11 +62,36 @@ public class ChatSendViewHolder extends BaseViewHolder<MessageInfo> {
 
     public ChatSendViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_send, parent, false));
-        ButterKnife.bind(this, itemView);
+        findViewByIds(itemView);
+        setItemLongClick();
+        setItemClick();
         this.mContext = parent.getContext();
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
         layoutParams = (RelativeLayout.LayoutParams) chatItemLayoutContent.getLayoutParams();
+    }
+
+    private void findViewByIds(View itemView) {
+        chatItemDate = (TextView) itemView.findViewById(R.id.chat_item_date);
+        chatItemHeader = (ImageView) itemView.findViewById(R.id.chat_item_header);
+        chatItemContentText = (GifTextView) itemView.findViewById(R.id.chat_item_content_text);
+        chatItemFail = (ImageView) itemView.findViewById(R.id.chat_item_fail);
+        chatItemProgress = (ProgressBar) itemView.findViewById(R.id.chat_item_progress);
+        chatItemContentImage = (BubbleImageView) itemView.findViewById(R.id.chat_item_content_image);
+        chatItemVoice = (ImageView) itemView.findViewById(R.id.chat_item_voice);
+        chatItemLayoutContent = (BubbleLinearLayout) itemView.findViewById(R.id.chat_item_layout_content);
+        chatItemVoiceTime = (TextView) itemView.findViewById(R.id.chat_item_voice_time);
+        chatItemLayoutFile = (BubbleLinearLayout) itemView.findViewById(R.id.chat_item_layout_file);
+        ivFileType = (ImageView) itemView.findViewById(R.id.iv_file_type);
+        tvFileName = (TextView) itemView.findViewById(R.id.tv_file_name);
+        tvFileSize = (TextView) itemView.findViewById(R.id.tv_file_size);
+        chatItemLayoutContact = (BubbleLinearLayout) itemView.findViewById(R.id.chat_item_layout_contact);
+        tvContactSurname = (TextView) itemView.findViewById(R.id.tv_contact_surname);
+        tvContactPhone = (TextView) itemView.findViewById(R.id.tv_contact_phone);
+        chatItemLayoutLink = (BubbleLinearLayout) itemView.findViewById(R.id.chat_item_layout_link);
+        tvLinkSubject = (TextView) itemView.findViewById(R.id.tv_link_subject);
+        tvLinkText = (TextView) itemView.findViewById(R.id.tv_link_text);
+        ivLinkPicture = (ImageView) itemView.findViewById(R.id.iv_link_picture);
     }
 
 
@@ -247,44 +244,64 @@ public class ChatSendViewHolder extends BaseViewHolder<MessageInfo> {
         }
     }
 
-    @OnLongClick({R.id.chat_item_content_image, R.id.chat_item_content_text, R.id.chat_item_layout_content,
-            R.id.chat_item_layout_file})
-    public boolean onItemLongClick(View view) {
-        switch (view.getId()) {
-            case R.id.chat_item_content_image:
-                onItemClickListener.onLongClickImage(view, (Integer) itemView.getTag());
+    public void setItemLongClick() {
+        chatItemContentImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onItemClickListener.onLongClickImage(v, (Integer) itemView.getTag());
                 return true;
-            case R.id.chat_item_content_text:
-                onItemClickListener.onLongClickText(view, (Integer) itemView.getTag());
+            }
+        });
+        chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onItemClickListener.onLongClickText(v, (Integer) itemView.getTag());
                 return true;
-            case R.id.chat_item_layout_content:
-                onItemClickListener.onLongClickItem(view, (Integer) itemView.getTag());
+            }
+        });
+        chatItemLayoutContent.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onItemClickListener.onLongClickItem(v, (Integer) itemView.getTag());
                 return true;
-            case R.id.chat_item_layout_file:
-                onItemClickListener.onLongClickFile(view, (Integer) itemView.getTag());
+            }
+        });
+        chatItemLayoutFile.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onItemClickListener.onLongClickFile(v, (Integer) itemView.getTag());
                 return true;
-            default:
-                return false;
-        }
+            }
+        });
     }
 
-    @OnClick({R.id.chat_item_content_image, R.id.chat_item_layout_content, R.id.chat_item_layout_file,
-            R.id.chat_item_layout_link})
-    public void onItemClick(View view) {
-        switch (view.getId()) {
-            case R.id.chat_item_content_image:
+    public void setItemClick() {
+        chatItemContentImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 onItemClickListener.onImageClick(chatItemContentImage, (Integer) itemView.getTag());
-                break;
-            case R.id.chat_item_layout_content:
+            }
+        });
+
+        chatItemLayoutFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 onItemClickListener.onVoiceClick(chatItemVoice, (Integer) itemView.getTag());
-                break;
-            case R.id.chat_item_layout_file:
-                Log.e(TAG, "onItemClick: ->");
-                onItemClickListener.onFileClick(view, (Integer) itemView.getTag());
-                break;
-            case R.id.chat_item_layout_link:
-                onItemClickListener.onLinkClick(view, (Integer) itemView.getTag());
-                break;
-        }
+            }
+        });
+
+        chatItemLayoutFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onFileClick(v, (Integer) itemView.getTag());
+            }
+        });
+
+        chatItemLayoutLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onLinkClick(v, (Integer) itemView.getTag());
+            }
+        });
     }
 }

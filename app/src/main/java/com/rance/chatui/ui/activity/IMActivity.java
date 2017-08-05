@@ -12,7 +12,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,32 +45,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * 作者：Rance on 2016/11/29 10:47
  * 邮箱：rance935@163.com
  */
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
-    @Bind(R.id.chat_list)
+public class IMActivity extends AppCompatActivity {
+    private static final String TAG = "IMActivity";
     RecyclerView chatList;
-    @Bind(R.id.emotion_voice)
     ImageView emotionVoice;
-    @Bind(R.id.edit_text)
     EditText editText;
-    @Bind(R.id.voice_text)
     TextView voiceText;
-    @Bind(R.id.emotion_button)
     ImageView emotionButton;
-    @Bind(R.id.emotion_add)
     ImageView emotionAdd;
-    @Bind(R.id.emotion_send)
     StateButton emotionSend;
-    @Bind(R.id.viewpager)
     NoScrollViewPager viewpager;
-    @Bind(R.id.emotion_layout)
     RelativeLayout emotionLayout;
 
     private EmotionInputDetector mDetector;
@@ -93,10 +81,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        findViewByIds();
         EventBus.getDefault().register(this);
         initWidget();
         handleIncomeAction();
+    }
+
+    private void findViewByIds() {
+        chatList = (RecyclerView) findViewById(R.id.chat_list);
+        emotionVoice = (ImageView) findViewById(R.id.emotion_voice);
+        editText = (EditText) findViewById(R.id.edit_text);
+        voiceText = (TextView) findViewById(R.id.voice_text);
+        emotionButton = (ImageView) findViewById(R.id.emotion_button);
+        emotionAdd = (ImageView) findViewById(R.id.emotion_add);
+        emotionSend = (StateButton) findViewById(R.id.emotion_send);
+        emotionLayout = (RelativeLayout) findViewById(R.id.emotion_layout);
+        viewpager = (NoScrollViewPager) findViewById(R.id.viewpager);
     }
 
     private void handleIncomeAction() {
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     private ChatAdapter.onItemClickListener itemClickListener = new ChatAdapter.onItemClickListener() {
         @Override
         public void onHeaderClick(int position) {
-            Toast.makeText(MainActivity.this, "onHeaderClick", Toast.LENGTH_SHORT).show();
+            Toast.makeText(IMActivity.this, "onHeaderClick", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             fullImageInfo.setHeight(view.getHeight());
             fullImageInfo.setImageUrl(messageInfos.get(position).getFilepath());
             EventBus.getDefault().postSticky(fullImageInfo);
-            startActivity(new Intent(MainActivity.this, FullImageActivity.class));
+            startActivity(new Intent(IMActivity.this, FullImageActivity.class));
             overridePendingTransition(0, 0);
         }
 
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             File file = new File(messageInfo.getFilepath());
-            Uri fileUri = FileProvider.getUriForFile(MainActivity.this, Constants.AUTHORITY, file);
+            Uri fileUri = FileProvider.getUriForFile(IMActivity.this, Constants.AUTHORITY, file);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
@@ -360,7 +360,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().removeStickyEvent(this);
         EventBus.getDefault().unregister(this);
     }

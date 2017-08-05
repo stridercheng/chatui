@@ -22,17 +22,13 @@ import com.rance.chatui.widget.IndicatorView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * 作者：Rance on 2016/12/13 16:01
  * 邮箱：rance935@163.com
  */
 public class ChatEmotionFragment extends BaseFragment {
-    @Bind(R.id.fragment_chat_vp)
     ViewPager fragmentChatVp;
-    @Bind(R.id.fragment_chat_group)
     IndicatorView fragmentChatGroup;
     private View rootView;
     private EmotionPagerAdapter emotionPagerAdapter;
@@ -42,7 +38,8 @@ public class ChatEmotionFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_chat_emotion, container, false);
-            ButterKnife.bind(this, rootView);
+            fragmentChatVp = (ViewPager) rootView.findViewById(R.id.fragment_chat_vp);
+            fragmentChatGroup = (IndicatorView) rootView.findViewById(R.id.fragment_chat_group);
             initWidget();
         }
         return rootView;

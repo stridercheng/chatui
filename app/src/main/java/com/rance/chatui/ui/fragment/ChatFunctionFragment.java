@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rance.chatui.R;
@@ -32,8 +33,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 作者：Rance on 2016/12/13 16:01
@@ -59,15 +58,25 @@ public class ChatFunctionFragment extends BaseFragment {
     private File fileCropUri = new File(Environment.getExternalStorageDirectory().getPath() + "/crop_photo.jpg");
     private Uri imageUri;
     private Uri cropImageUri;
-
+    TextView tvCapture, tvAlbum, tvContact, tvCloud, tvFile, tvLocation;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_chat_function, container, false);
-            ButterKnife.bind(this, rootView);
+            findViewByIds(rootView);
+            setItemClick();
         }
         return rootView;
+    }
+
+    private void findViewByIds(View rootView) {
+        tvCapture = (TextView) rootView.findViewById(R.id.chat_function_capture);
+        tvAlbum = (TextView) rootView.findViewById(R.id.chat_function_album);
+        tvContact = (TextView) rootView.findViewById(R.id.chat_function_contact);
+        tvCloud = (TextView) rootView.findViewById(R.id.chat_function_cloud);
+        tvFile = (TextView) rootView.findViewById(R.id.chat_function_file);
+        tvLocation = (TextView) rootView.findViewById(R.id.chat_function_location);
     }
 
     private void autoObtainCameraPermission() {
@@ -87,14 +96,16 @@ public class ChatFunctionFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.chat_function_capture, R.id.chat_function_album, R.id.chat_function_contact,
-            R.id.chat_function_cloud, R.id.chat_function_file, R.id.chat_function_location})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.chat_function_capture:
+    public void setItemClick() {
+        tvCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 autoObtainCameraPermission();
-                break;
-            case R.id.chat_function_album:
+            }
+        });
+        tvAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -105,8 +116,12 @@ public class ChatFunctionFragment extends BaseFragment {
                 } else {
                     choosePhoto();
                 }
-                break;
-            case R.id.chat_function_file:
+            }
+        });
+
+        tvFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -116,15 +131,29 @@ public class ChatFunctionFragment extends BaseFragment {
                 } else {
                     chooseFile();
                 }
-                break;
-            case R.id.chat_function_cloud:
-                break;
-            case R.id.chat_function_location:
-                break;
-            case R.id.chat_function_contact:
+            }
+        });
+
+        tvCloud.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        tvLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        tvContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 showContact();
-                break;
-        }
+            }
+        });
     }
 
     private void showContact() {

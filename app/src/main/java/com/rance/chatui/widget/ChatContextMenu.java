@@ -26,7 +26,7 @@ import com.rance.chatui.enity.MessageInfo;
  * @date 2017/7/31.
  */
 
-public class ChatContextMenu extends RelativePopupWindow implements View.OnClickListener {
+public class ChatContextMenu extends RelativePopupWindow {
 
     private MessageInfo mMessageInfo;
     private Context mContext;
@@ -50,8 +50,28 @@ public class ChatContextMenu extends RelativePopupWindow implements View.OnClick
         TextView tvCopy = (TextView) view.findViewById(R.id.tv_copy);
         TextView tvTransit = (TextView) view.findViewById(R.id.tv_transit);
 
-        tvCopy.setOnClickListener(this);
-        tvTransit.setOnClickListener(this);
+        tvCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyToClipboard();
+            }
+        });
+        tvTransit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transitContent();
+            }
+        });
+    }
+
+    private void transitContent() {
+
+    }
+
+    private void copyToClipboard() {
+        ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData data = ClipData.newPlainText("Moa", mMessageInfo.getContent());
+        cm.setPrimaryClip(data);
     }
 
     @Override
@@ -84,20 +104,5 @@ public class ChatContextMenu extends RelativePopupWindow implements View.OnClick
                 animator.start();
             }
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-        this.dismiss();
-        switch (v.getId()) {
-            case R.id.tv_copy:
-                ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData data = ClipData.newPlainText("Moa", mMessageInfo.getContent());
-                cm.setPrimaryClip(data);
-                break;
-            case R.id.tv_transit:
-
-                break;
-        }
     }
 }

@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,9 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 作者：Rance on 2016/12/15 15:56
@@ -33,9 +31,7 @@ import butterknife.OnClick;
  */
 public class FullImageActivity extends Activity {
 
-    @Bind(R.id.full_image)
     ImageView fullImage;
-    @Bind(R.id.full_lay)
     LinearLayout fullLay;
     private int mLeft;
     private int mTop;
@@ -48,7 +44,16 @@ public class FullImageActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_full_image);
-        ButterKnife.bind(this);
+        fullImage = (ImageView) findViewById(R.id.full_image);
+        fullLay = (LinearLayout) findViewById(R.id.full_lay);
+
+        fullImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onImageClick();
+            }
+        });
+
         EventBus.getDefault().register(this);
     }
 
@@ -117,8 +122,7 @@ public class FullImageActivity extends Activity {
         });
     }
 
-    @OnClick(R.id.full_image)
-    public void onClick() {
+    public void onImageClick() {
         activityExitAnim(new Runnable() {
             @Override
             public void run() {
